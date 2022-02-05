@@ -1,5 +1,7 @@
 package service;
 
+import model.Author;
+import model.Book;
 import model.CarMark;
 import model.CarModel;
 import org.hibernate.Session;
@@ -17,20 +19,24 @@ public class Main {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            session.save(new CarModel("rav4"));
-            session.save(new CarModel("chr"));
-            session.save(new CarModel("tundra"));
-            session.save(new CarModel("prius"));
-            session.save(new CarModel("camry"));
+            Book book = Book.of("war and peace");
+            Book book1 = Book.of("mumu");
+            Book book2 = Book.of("show");
+            Author author = Author.of("petr");
+            Author author1 = Author.of("vlad");
+            book.getAuthors().add(author);
+            book.getAuthors().add(author1);
+            book1.getAuthors().add(author);
+            book1.getAuthors().add(author1);
+            book2.getAuthors().add(author);
+            book2.getAuthors().add(author1);
 
-            CarMark mark = new CarMark("toyota");
-            mark.addModel(session.load(CarModel.class, 1));
-            mark.addModel(session.load(CarModel.class, 2));
-            mark.addModel(session.load(CarModel.class, 3));
-            mark.addModel(session.load(CarModel.class, 4));
-            mark.addModel(session.load(CarModel.class, 5));
+            session.persist(book);
+            session.persist(book1);
+            session.persist(book2);
 
-            session.save(mark);
+            Book del = session.get(Book.class, 1);
+            session.remove(del);
 
             session.getTransaction().commit();
             session.close();
