@@ -2,8 +2,6 @@ package service;
 
 import model.Author;
 import model.Book;
-import model.CarMark;
-import model.CarModel;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
