@@ -2,14 +2,20 @@ package service;
 
 import model.Author;
 import model.Book;
+import model.Car;
+import model.Mark;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
+        List<Mark> list = new ArrayList<>();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
         try {
@@ -17,24 +23,12 @@ public class Main {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            Book book = Book.of("war and peace");
-            Book book1 = Book.of("mumu");
-            Book book2 = Book.of("show");
-            Author author = Author.of("petr");
-            Author author1 = Author.of("vlad");
-            book.getAuthors().add(author);
-            book.getAuthors().add(author1);
-            book1.getAuthors().add(author);
-            book1.getAuthors().add(author1);
-            book2.getAuthors().add(author);
-            book2.getAuthors().add(author1);
-
-            session.persist(book);
-            session.persist(book1);
-            session.persist(book2);
-
-            Book del = session.get(Book.class, 1);
-            session.remove(del);
+            list = session.createQuery("from Mark ").list();
+            for (Mark mark : list) {
+                for (Car car : mark.getAllModel()) {
+                    System.out.println(car);
+                }
+            }
 
             session.getTransaction().commit();
             session.close();

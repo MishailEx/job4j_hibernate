@@ -21,5 +21,7 @@
         <mapping class="model.CarModel"/>
         <mapping class="model.Book"/>
         <mapping class="model.Author"/>
+        <mapping class="model.Mark"/>
+        <mapping class="model.Car"/>
     </session-factory>
 </hibernate-configuration>
