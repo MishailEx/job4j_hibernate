@@ -23,5 +23,6 @@
         <mapping class="model.Author"/>
         <mapping class="model.Mark"/>
         <mapping class="model.Car"/>
+        <mapping class="model.Candidate"/>
     </session-factory>
 </hibernate-configuration>

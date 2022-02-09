@@ -1,21 +1,14 @@
 package service;
 
-import model.Author;
-import model.Book;
-import model.Car;
-import model.Mark;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.query.Query;
 
 public class Main {
     public static void main(String[] args) {
-        List<Mark> list = new ArrayList<>();
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure().build();
         try {
@@ -23,12 +16,28 @@ public class Main {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            list = session.createQuery("from Mark ").list();
-            for (Mark mark : list) {
-                for (Car car : mark.getAllModel()) {
-                    System.out.println(car);
-                }
+            Query query = session.createQuery("from Candidate");
+            for (Object o: query.list()) {
+                System.out.println(o);
             }
+
+            Query query2 = session.createQuery("from Candidate c where c.id = :id")
+                    .setParameter("id", 1);
+            System.out.println(query2.uniqueResult());
+
+            Query query3 = session.createQuery("from Candidate c where c.name = :name")
+                    .setParameter("name", "ваня");
+            System.out.println(query3.uniqueResult());
+
+            session.createQuery("update Candidate c set c.name = :name, c.salary = :salary where c.id = :id")
+                    .setParameter("name", "слава")
+                    .setParameter("salary", "2000")
+                    .setParameter("id", 2)
+                    .executeUpdate();
+
+            session.createQuery("delete from Candidate where id = :fId")
+                    .setParameter("fId", 3)
+                    .executeUpdate();
 
             session.getTransaction().commit();
             session.close();
