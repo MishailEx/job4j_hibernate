@@ -34,8 +34,12 @@ public class BaseVacancy {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         BaseVacancy that = (BaseVacancy) o;
         return id == that.id && Objects.equals(vacancySet, that.vacancySet);
     }
