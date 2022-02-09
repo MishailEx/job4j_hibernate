@@ -1,5 +1,6 @@
 package service;
 
+import model.Candidate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -16,28 +17,12 @@ public class Main {
             Session session = sf.openSession();
             session.beginTransaction();
 
-            Query query = session.createQuery("from Candidate");
-            for (Object o: query.list()) {
-                System.out.println(o);
-            }
-
-            Query query2 = session.createQuery("from Candidate c where c.id = :id")
-                    .setParameter("id", 1);
-            System.out.println(query2.uniqueResult());
-
-            Query query3 = session.createQuery("from Candidate c where c.name = :name")
-                    .setParameter("name", "ваня");
-            System.out.println(query3.uniqueResult());
-
-            session.createQuery("update Candidate c set c.name = :name, c.salary = :salary where c.id = :id")
-                    .setParameter("name", "слава")
-                    .setParameter("salary", "2000")
-                    .setParameter("id", 2)
-                    .executeUpdate();
-
-            session.createQuery("delete from Candidate where id = :fId")
-                    .setParameter("fId", 3)
-                    .executeUpdate();
+            Candidate candidate = session.createQuery(
+                    "select distinct st from Candidate st "
+                            + "join fetch st.baseVacancy a "
+                            + "join fetch a.vacancySet b "
+                            + "where st.id = :sId", Candidate.class
+            ).setParameter("sId", 1).uniqueResult();
 
             session.getTransaction().commit();
             session.close();
