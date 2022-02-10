@@ -24,9 +24,34 @@ public class Main {
                             + "where st.id = :sId", Candidate.class
             ).setParameter("sId", 1).uniqueResult();
 
+            Query query = session.createQuery("from Candidate");
+            for (Object o : query.list()) {
+                System.out.println(o);
+            }
+
+            Query query2 = session.createQuery("from Candidate c where c.id = :id")
+                    .setParameter("id", 1);
+            System.out.println(query2.uniqueResult());
+
+            Query query3 = session.createQuery("from Candidate c where c.name = :name")
+                    .setParameter("name", "ваня");
+            for (Object obj : query3.list()) {
+                System.out.println(obj);
+            }
+
+            session.createQuery("update Candidate c set c.name = :name, c.salary = :salary where c.id = :id")
+                    .setParameter("name", "слава")
+                    .setParameter("salary", "2000")
+                    .setParameter("id", 2)
+                    .executeUpdate();
+
+            session.createQuery("delete from Candidate where id = :fId")
+                    .setParameter("fId", 3)
+                    .executeUpdate();
+
             session.getTransaction().commit();
             session.close();
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             StandardServiceRegistryBuilder.destroy(registry);
