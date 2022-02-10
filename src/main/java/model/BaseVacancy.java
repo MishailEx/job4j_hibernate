@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ public class BaseVacancy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    Set<Vacancy> vacancySet;
+    private Set<Vacancy> vacancySet = new HashSet<>();
 
     public BaseVacancy() {
     }
