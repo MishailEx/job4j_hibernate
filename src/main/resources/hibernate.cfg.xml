@@ -26,5 +26,8 @@
         <mapping class="model.Candidate"/>
         <mapping class="model.Vacancy"/>
         <mapping class="model.BaseVacancy"/>
+        <mapping class="integration.Order"/>
+        <mapping class="integration.OrdersStore"/>
+
     </session-factory>
 </hibernate-configuration>
